@@ -1,0 +1,21 @@
+# Packages disabled with `pm disable-user --user 0` on MiTV-AFMU0 (Xiaomi TV Box S 3rd Gen)
+# Pre-disabled at factory (not ours, left alone): com.mitv.tvhome.atv, com.mitv.tvhome.mitvplus
+# Batch A - telemetry
+com.miui.tv.analytics
+com.xiaomi.statistic
+com.android.tv.feedbackconsent
+com.google.android.feedback
+# Batch B - Xiaomi content / ads
+com.mitv.tvhome.michannel
+com.mitv.tvhome.oemtab
+com.xm.webcontent
+com.xiaomi.android.tvsetup.partnercustomizer
+# Batch C - unused preloads
+com.xiaomi.mimusic2
+com.google.android.play.games
+# com.google.android.apps.tv.dreamx  (Google screensaver: re-enabled 2026-10-25 on request; it is the default screensaver)
+# Launcher takeover - stock Google TV home, and the setup wizard whose RecoveryActivity
+# grabs Home (black screen) once the stock home is off. The Wi-Fi network belongs to
+# android.uid.system, not setupwraith, so it survives.
+com.google.android.apps.tv.launcherx
+com.google.android.tungsten.setupwraith

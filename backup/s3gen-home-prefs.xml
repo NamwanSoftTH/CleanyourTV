@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <string name="sel">com.tencent.qqlivei18n</string>
+    <int name="dock_n" value="7" />
+    <string name="order">com.google.android.youtube.tv,com.netflix.ninja,com.disney.disneyplus,com.iqiyi.i18n.tv,com.tencent.qqlivei18n,com.amazon.amazonvideo.livingroom,com.truedmp.idtv,com.wbd.stream,com.viu.tv,com.doonung.dtv,com.youku.intl.tv,com.mgtv.tv.intl,com.apple.atve.androidtv.appletv,com.truevisions.android,com.beci.thaitv3android,org.videolan.vlc,com.xiaomi.mitv.mediaexplorer,com.mitv.gallery,com.xiaomi.mitv.smartshare,com.android.vending</string>
+</map>

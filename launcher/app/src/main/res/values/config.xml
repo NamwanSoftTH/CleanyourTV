@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tiles per row, 4-7. The dock and the grid below it share it. -->
+    <integer name="columns">7</integer>
+
+    <!-- How long a button must be held (ms) for hold-OK (app menu) and hold-Home (quick settings).
+         A normal press on the Xiaomi remote lasts about 150-200 ms. -->
+    <integer name="long_press_ms">300</integer>
+
+    <!-- Dock on/off. false = app list only: no dock band or big app name; the dock_apps lead the list. -->
+    <bool name="dock_enabled">false</bool>
+
+    <!-- Where the dock sits when Home opens: 0 = highest, 50 = middle of the screen, 100 = bottom. -->
+    <integer name="dock_position">35</integer>
+
+    <!-- Dock apps, left to right, by package name. Apps that are not installed are skipped.
+         Find names: adb shell cmd package query-activities - -brief -a android.intent.action.MAIN -c android.intent.category.LEANBACK_LAUNCHER -->
+    <string-array name="dock_apps">
+        <item>com.google.android.youtube.tv</item>
+        <item>com.netflix.ninja</item>
+        <item>com.disney.disneyplus</item>
+        <item>com.iqiyi.i18n.tv</item>
+        <item>com.tencent.qqlivei18n</item>
+        <item>com.amazon.amazonvideo.livingroom</item>
+        <item>com.truedmp.idtv</item>
+    </string-array>
+
+    <!-- Grid order below the dock: these first, in this order; the rest alphabetically. -->
+    <string-array name="app_order">
+        <item>com.wbd.stream</item>                      <!-- HBO Max -->
+        <item>com.viu.tv</item>                          <!-- Viu -->
+        <item>com.doonung.dtv</item>                     <!-- MONOMAX -->
+        <item>com.youku.intl.tv</item>                   <!-- Youku -->
+        <item>com.mgtv.tv.intl</item>                    <!-- MGTV -->
+        <item>com.apple.atve.androidtv.appletv</item>    <!-- Apple TV -->
+        <item>com.truevisions.android</item>             <!-- TrueVisions -->
+        <item>com.beci.thaitv3android</item>             <!-- Ch3 Plus -->
+        <item>org.videolan.vlc</item>                    <!-- VLC -->
+    </string-array>
+
+    <!-- Never shown. -->
+    <string-array name="hidden_apps">
+        <item>com.android.tv.settings</item>
+        <item>com.google.android.youtube.tvmusic</item>
+        <item>com.mitv.gallery</item>
+    </string-array>
+
+    <!-- Look. Now: the "aurora" theme from CleanYourTV (navy background + aurora wallpaper, MIT,
+         see AURORA-WALLPAPER-LICENSE-MIT.txt). Pitch black again: background #000000, wallpaper empty. -->
+
+    <!-- Colour behind everything. -->
+    <color name="background">#070A14</color>
+
+    <!-- Wallpaper: name of an image in res/drawable-nodpi (e.g. "wallpaper" for wallpaper.jpg).
+         Empty = no wallpaper, just the background colour. -->
+    <string name="wallpaper">space</string>
+
+    <!-- Clock font weight: ExtraLight, Light, Regular or Medium (IBM Plex Sans Thai). -->
+    <string name="clock_weight">Medium</string>
+
+    <!-- Dark scrim over the wallpaper, 0-100 (%). Aurora is dark already. -->
+    <integer name="wallpaper_scrim">50</integer>
+
+    <!-- Opacity of the dock band over a wallpaper, 0-100 (%). Without a wallpaper it is solid. -->
+    <integer name="dock_opacity">70</integer>
+
+    <!-- App the USB pill opens (shown before Wi-Fi while a USB drive is mounted). -->
+    <string name="usb_app">com.xiaomi.mitv.mediaexplorer</string>
+
+    <!-- Optional KeyService (accessibility, off by default): "keycode:package".
+         190 = KEYCODE_BUTTON_3, the YouTube button on the Xiaomi remote. -->
+    <string-array name="app_keys">
+        <item>190:com.google.android.youtube.tv</item>
+    </string-array>
+
+    <!-- KeyService: what holding Home (0.6 s) does; a short press still goes Home.
+         "panel" = quick settings card, "settings" = full Android Settings, "" = nothing extra. -->
+    <string name="home_long_press">panel</string>
+</resources>

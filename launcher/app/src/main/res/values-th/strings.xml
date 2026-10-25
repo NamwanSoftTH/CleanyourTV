@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="morning">สวัสดีตอนเช้า</string>
+    <string name="afternoon">สวัสดีตอนบ่าย</string>
+    <string name="evening">สวัสดีตอนเย็น</string>
+    <string name="inputs">อินพุต</string>
+    <string name="settings">การตั้งค่า</string>
+    <string name="ethernet">อีเทอร์เน็ต</string>
+    <string name="usb">ไดรฟ์ USB</string>
+    <string name="offline">ออฟไลน์</string>
+    <string name="live_tv">ทีวีสด</string>
+    <string name="cannot_open">เปิด %1$s ไม่ได้</string>
+    <string name="action_move">ย้าย</string>
+    <string name="action_info">ข้อมูลแอป</string>
+    <string name="action_reset">รีเซ็ตลำดับแอป</string>
+    <string name="move_hint">◀ ▶ ▲ ▼  ย้ายแอป    ·    OK  เสร็จ</string>
+    <string name="qs_title">ตั้งค่าด่วน</string>
+    <string name="qs_network">เครือข่าย</string>
+    <string name="qs_display_sound">การแสดงผลและเสียง</string>
+    <string name="qs_accessories">รีโมตและอุปกรณ์เสริม</string>
+    <string name="qs_apps">แอป</string>
+    <string name="qs_all_settings">การตั้งค่าทั้งหมด</string>
+    <string name="qs_restart">รีสตาร์ท</string>
+</resources>
