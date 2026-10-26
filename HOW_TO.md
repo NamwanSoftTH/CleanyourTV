@@ -1,3 +1,6 @@
+**[← README](README.md)** · **[Showcase](README.md#showcase)** · **[ติดตั้งกับเครื่องใหม่](#ติดตั้งกับเครื่องใหม่)** ·
+**[Mac / Linux](#build-บน-mac--linux)** · **[TV รุ่นอื่น (OTHER_DEVICE)](OTHER_DEVICE.md)**
+
 ## Install
 
 ถ้าภายหลังอยากแก้อะไร ให้เปิด Wireless debugging แล้วส่ง IP:พอร์ตใหม่มา หรือแก้ config.xml เองแล้วรัน `.\install-launcher.ps1` ตามที่เขียนไว้ใน README.md

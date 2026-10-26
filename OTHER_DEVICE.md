@@ -1,5 +1,8 @@
 # ใช้กับ TV รุ่นอื่น
 
+**[← README](README.md)** · **[Showcase](README.md#showcase)** · **[วิธีติดตั้ง (HOW_TO)](HOW_TO.md)** ·
+**[ติดตั้งกับเครื่องใหม่](HOW_TO.md#ติดตั้งกับเครื่องใหม่)**
+
 ใช้ได้กับ **Android TV / Google TV ที่เป็น Android 8.0 ขึ้นไป (SDK 26+)**
 ใช้ไม่ได้กับ Samsung (Tizen), LG (webOS) และ Fire TV
 

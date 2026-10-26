@@ -1,5 +1,10 @@
 # Xiaomi TV Box S 3rd Gen — debloat + S3 Home launcher
 
+**[Showcase](#showcase)** · **[How to install (HOW_TO)](HOW_TO.md)** ·
+**[New box](HOW_TO.md#ติดตั้งกับเครื่องใหม่)** · **[Mac / Linux build](HOW_TO.md#build-บน-mac--linux)** ·
+**[Other TV models (OTHER_DEVICE)](OTHER_DEVICE.md)** · **[Settings](#change-the-dock-the-grid-or-the-wallpaper)** ·
+**[Using it](#using-s3-home)** · **[Undo](#undo-everything)**
+
 Device: MiTV-AFMU0, Google TV, Android 14 (SDK 34), firmware V816.0.11.0.UZFAABX.
 Set up 2026-10-25. Original state before any change: `backup\`.
 
