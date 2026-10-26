@@ -23,7 +23,8 @@ if (Test-Path $List) {
     } | Sort-Object -Unique
 }
 foreach ($p in $pkgs) { Write-Host "$p -> $(& $adb -s $Serial shell pm enable --user 0 $p)" }
-# Remote-button helper off and location off again, as they were before (backup\settings-secure.txt).
+# Remote-button helper off and location off again, as they were before
+# (backup\MiTV-AFMU0-30468-20261025-0854\settings-secure.txt).
 & $adb -s $Serial shell settings put secure enabled_accessibility_services '""'
 & $adb -s $Serial shell settings put secure accessibility_enabled 0
 & $adb -s $Serial shell cmd location set-location-enabled false

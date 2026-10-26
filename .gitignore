@@ -21,7 +21,6 @@ desktop.ini
 # --- Device data: not for a public repo ---
 # Backups hold the box's serial number, android_id, Bluetooth MAC and full settings.
 backup/*
-backup-*/
 # ...except the arranged app order (package names only), the example for setup-new-box.ps1 -PrefsFile
 !backup/s3gen-home-prefs.xml
 

@@ -54,7 +54,11 @@ $takeover = if ($list -and $list.Takeover.Count) { $list.Takeover } else { $defa
 
 # ---------------------------------------------------------------- 1. backup
 Step 'Backup'
-if (-not $BackupDir) { $BackupDir = "backup-$model-$((Get-Date).ToString('yyyyMMdd-HHmm', [Globalization.CultureInfo]::InvariantCulture))" }
+# backup\<model>-<last 5 of the serial number, to tell boxes of one model apart>-<date>
+$serialNo = (Sh getprop ro.serialno).Trim()
+$tail = if ($serialNo.Length -ge 5) { $serialNo.Substring($serialNo.Length - 5) } else { 'noserial' }
+$stamp = (Get-Date).ToString('yyyyMMdd-HHmm', [Globalization.CultureInfo]::InvariantCulture)
+if (-not $BackupDir) { $BackupDir = Join-Path 'backup' ("$model-$tail-$stamp" -replace '[^\w.-]', '_') }
 $b = Join-Path $PSScriptRoot $BackupDir
 New-Item -ItemType Directory -Force $b | Out-Null
 Sh pm list packages -f > "$b\packages-all.txt"

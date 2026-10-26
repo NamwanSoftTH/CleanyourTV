@@ -41,8 +41,8 @@ TV_SERIAL=192.168.x.x:<พอร์ต> ./install-launcher.sh              # ค
 
 สิ่งที่สคริปต์ทำ ตามลำดับ:
 
-1. เช็กการเชื่อมต่อ, รุ่น และ Android (ต้อง SDK 26+) ถ้าไม่ใช่ `MiTV-AFMU0` จะ**ข้าม debloat** และถามก่อนทำต่อ
-2. สำรองข้อมูลลงโฟลเดอร์ `backup-<รุ่น>-<วันเวลา>\`
+1. เช็กการเชื่อมต่อ, รุ่น และ Android (ต้อง SDK 26+) ถ้ายังไม่มี `debloat/<รุ่น>.txt` ของรุ่นนี้ จะ**ข้าม debloat** และถามก่อนทำต่อ
+2. สำรองข้อมูลลงโฟลเดอร์ `backup\<รุ่น>-<เลขท้าย serial 5 ตัว>-<วันเวลา>\`
 3. ปิดแพ็กเกจตาม `debloat/<รุ่น>.txt` ของรุ่นที่ต่ออยู่ ทีละ batch (ถ้าไม่มีไฟล์ของรุ่นนั้นจะข้าม debloat; ข้ามแพ็กเกจที่ไม่มีในเครื่อง; ไม่แตะ Backdrop)
 4. build และติดตั้งลอนเชอร์ แล้วตั้งเป็น Home
 5. ถามทีละข้อ: เปิดตำแหน่ง (ชื่อ Wi-Fi), เปิดปุ่มช่วยรีโมต และให้สิทธิ์ `WRITE_SECURE_SETTINGS` (ค่าเริ่มต้นคือไม่ให้)
@@ -81,10 +81,10 @@ adb -s $env:TV_SERIAL shell "getprop ro.product.model; getprop ro.build.version.
 
 ### 2. สำรองข้อมูลก่อนแก้
 
-ใช้โฟลเดอร์แยกต่อเครื่อง เช่น `backup-box2\`
+ใช้โฟลเดอร์ย่อยใน `backup\` แยกต่อเครื่อง เช่น `backup\box2\` (ทั้ง `backup\` ไม่ขึ้น git เพราะมีข้อมูลส่วนตัวของเครื่อง)
 
 ```powershell
-$b = 'backup-box2'; New-Item -ItemType Directory -Force $b | Out-Null
+$b = 'backup\box2'; New-Item -ItemType Directory -Force $b | Out-Null
 adb -s $env:TV_SERIAL shell pm list packages -f   > "$b\packages-all.txt"
 adb -s $env:TV_SERIAL shell pm list packages -d   > "$b\packages-disabled.txt"
 adb -s $env:TV_SERIAL shell getprop               > "$b\getprop.txt"

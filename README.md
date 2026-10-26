@@ -6,7 +6,7 @@
 **[Using it](#using-s3-home)** · **[Undo](#undo-everything)**
 
 Device: MiTV-AFMU0, Google TV, Android 14 (SDK 34), firmware V816.0.11.0.UZFAABX.
-Set up 2026-10-25. Original state before any change: `backup\`.
+Set up 2026-10-25. Original state before any change: `backup\MiTV-AFMU0-30468-20261025-0854\`.
 
 ## Showcase
 
@@ -196,7 +196,7 @@ so a USB drive plugged into it is not detected until debugging is off and the bo
 
 | Path                    | What                                                                                       |
 | ----------------------- | ------------------------------------------------------------------------------------------ |
-| `backup\`               | Package lists, getprop, all settings, HOME handlers, display, network (before any change)  |
+| `backup\`               | One folder per box and snapshot, `<model>-<serial ending>-<date>` (not in git: serial numbers, settings) |
 | `debloat/<model>.txt` | What is disabled, per TV model (read by `setup-new-box.ps1` and `restore.ps1`) |
 | `tools/new-debloat-list.ps1` | Draft `debloat/<model>.txt` for a new model, from the connected TV's packages |
 | `tools/DebloatList.ps1` | Reads the per-model lists (shared by the scripts above) |
