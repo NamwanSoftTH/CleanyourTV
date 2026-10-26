@@ -2,6 +2,23 @@
 
 ถ้าภายหลังอยากแก้อะไร ให้เปิด Wireless debugging แล้วส่ง IP:พอร์ตใหม่มา หรือแก้ config.xml เองแล้วรัน `.\install-launcher.ps1` ตามที่เขียนไว้ใน README.md
 
+### Build บน Mac / Linux
+
+ใช้ `install-launcher.sh` แทน `install-launcher.ps1` (ทำงานเหมือนกัน):
+
+```sh
+adb connect 192.168.x.x:<พอร์ต>
+TV_SERIAL=192.168.x.x:<พอร์ต> ./install-launcher.sh --set-home   # ครั้งแรก: ติดตั้ง + ตั้งเป็น Home
+TV_SERIAL=192.168.x.x:<พอร์ต> ./install-launcher.sh              # ครั้งต่อไป: ติดตั้งทับ
+./install-launcher.sh --build-only                                # build อย่างเดียว
+```
+
+ต้องมี: `adb` ใน PATH (Android SDK platform-tools), Android SDK (หาเองที่ `~/Library/Android/sdk` บน Mac
+หรือ `~/Android/Sdk` บน Linux หรือตั้ง `ANDROID_HOME`) และ JDK 17+ (หา JDK ของ Android Studio ให้เอง
+หรือตั้ง `JAVA_HOME`) ครั้งแรก Gradle wrapper จะดาวน์โหลด Gradle 8.14.3 ให้อัตโนมัติ
+ส่วน `setup-new-box.ps1`, `restore.ps1` และ `tools\*.ps1` ใช้ได้บน Windows เท่านั้น
+(หรือ PowerShell 7 บน Mac/Linux โดยต้องแก้ path ของ adb ในสคริปต์)
+
 ### Wallpaper
 
 ถ้าจะเปลี่ยนพื้นหลังครั้งหน้า ใช้สคริปต์ที่ผมเพิ่มไว้ (อยู่ใน README แล้ว):

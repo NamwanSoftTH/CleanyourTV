@@ -159,7 +159,9 @@ so a USB drive plugged into it is not detected until debugging is off and the bo
 | `disabled-packages.txt` | What is disabled (read by `restore.ps1`) |
 | `restore.ps1` | Undo everything |
 | `setup-new-box.ps1` | Set up another box in one go (backup, debloat, launcher, takeover); see `HowTo.md` |
-| `install-launcher.ps1` | Build + install S3 Home |
+| `install-launcher.ps1` | Build + install S3 Home (Windows) |
+| `install-launcher.sh` | Same for Mac/Linux: `TV_SERIAL=ip:port ./install-launcher.sh [--set-home] [--build-only]` |
+| `.gitattributes` | Keeps `gradlew` / `*.sh` LF and `*.bat` / `*.ps1` CRLF for every clone |
 | `tools\disable.ps1` | Disable packages one per call; refuses Android core packages |
 | `tools\shot.ps1` | Press keys, then pull a screenshot: `.\tools\shot.ps1 shots\x.png DPAD_DOWN` |
 | `launcher\` | Launcher source (Java, AndroidX RecyclerView) |

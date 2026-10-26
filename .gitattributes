@@ -1,0 +1,20 @@
+# Line endings by file type, whatever core.autocrlf is set to on the machine that clones.
+* text=auto
+
+# Run by sh on Mac/Linux: must be LF, or "/bin/sh^M: bad interpreter"
+gradlew   text eol=lf
+*.sh      text eol=lf
+
+# Windows scripts
+*.bat     text eol=crlf
+*.cmd     text eol=crlf
+*.ps1     text eol=crlf
+
+# Binaries: never touch
+*.jar     binary
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.webp    binary
+*.ttf     binary
+*.apk     binary
