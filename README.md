@@ -3,6 +3,23 @@
 Device: MiTV-AFMU0, Google TV, Android 14 (SDK 34), firmware V816.0.11.0.UZFAABX.
 Set up 2026-10-25. Original state before any change: `backup\`.
 
+## Showcase
+
+**Home: app list only** (`dock_enabled` false): fixed header with greeting, time and date, Wi-Fi and
+Settings pills, all apps in one grid over a wallpaper (`space`); the focused tile grows and shows its name.
+
+![Home, app list only](example/home.png)
+
+**Home with the dock** (`dock_enabled` true): dock band with the big name of the focused app and a glow
+in the colour of its banner, the grid below it (shown on a plain black background).
+
+![Home with the dock](example/dock.png)
+
+**Quick settings** (hold Home on the remote): Network, Display & sound, Remotes & accessories, Apps,
+All settings and Restart, over whatever is on screen.
+
+![Quick settings panel](example/popup-setting.png)
+
 ## What was changed
 
 **Disabled** with `pm disable-user --user 0` (nothing uninstalled), full list in `disabled-packages.txt`:
