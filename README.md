@@ -191,5 +191,7 @@ so a USB drive plugged into it is not detected until debugging is off and the bo
 | `launcher\`             | Launcher source (Java, AndroidX RecyclerView)                                              |
 | `shots\`                | Screenshots from the TV taken while setting it up                                          |
 
-[อ่านวิธีการใช้งานเพิ่มเติมได้ที่นี่](HowTo.md)
-[อ่านวิธีการใช้งานเครื่องรุ่นอื่นได้ที่นี่](OtherDevice.md)
+## Other
+
+- [วิธีการใช้งานเพิ่มเติมได้ที่นี่](HowTo.md)
+- [วิธีการใช้งานเครื่องรุ่นอื่นได้ที่นี่](OtherDevice.md)
