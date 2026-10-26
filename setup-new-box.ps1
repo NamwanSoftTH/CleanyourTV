@@ -13,7 +13,7 @@ param([string]$Serial = $env:TV_SERIAL,
       [switch]$Yes)
 $ErrorActionPreference = 'Stop'
 $adb = 'D:\AndroidSDK\platform-tools\adb.exe'
-$pkg = 'com.launcher.mi.box.s3'
+$pkg = 'com.launcher.clean'
 $knownModel = 'MiTV-AFMU0'   # disabled-packages.txt was made on this model
 $takeover = @('com.google.android.apps.tv.launcherx', 'com.google.android.tungsten.setupwraith')
 

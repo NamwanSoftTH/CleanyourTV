@@ -1,4 +1,4 @@
-package com.launcher.mi.box.s3;
+package com.launcher.clean;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;

@@ -1,4 +1,4 @@
-package com.launcher.mi.box.s3;
+package com.launcher.clean;
 
 import android.graphics.Outline;
 import android.graphics.Typeface;

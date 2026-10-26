@@ -15,7 +15,7 @@ TV_SERIAL=192.168.x.x:<พอร์ต> ./install-launcher.sh              # ค
 
 ต้องมี: `adb` ใน PATH (Android SDK platform-tools), Android SDK (หาเองที่ `~/Library/Android/sdk` บน Mac
 หรือ `~/Android/Sdk` บน Linux หรือตั้ง `ANDROID_HOME`) และ JDK 17+ (หา JDK ของ Android Studio ให้เอง
-หรือตั้ง `JAVA_HOME`) ครั้งแรก Gradle wrapper จะดาวน์โหลด Gradle 8.14.3 ให้อัตโนมัติ
+หรือตั้ง `JAVA_HOME`) ครั้งแรก Gradle wrapper จะดาวน์โหลด Gradle 9.5.0 ให้อัตโนมัติ
 ส่วน `setup-new-box.ps1`, `restore.ps1` และ `tools\*.ps1` ใช้ได้บน Windows เท่านั้น
 (หรือ PowerShell 7 บน Mac/Linux โดยต้องแก้ path ของ adb ในสคริปต์)
 
@@ -117,14 +117,14 @@ adb -s $env:TV_SERIAL shell cmd location set-location-enabled true
 เมนูจะเปิดหน้าตั้งค่าหลักแทน):
 
 ```powershell
-adb -s $env:TV_SERIAL shell pm grant com.launcher.mi.box.s3 android.permission.WRITE_SECURE_SETTINGS
+adb -s $env:TV_SERIAL shell pm grant com.launcher.clean android.permission.WRITE_SECURE_SETTINGS
 ```
 
 ปุ่มช่วยรีโมต (ปุ่ม YouTube, กด Home ค้าง = ตั้งค่าด่วน) **แลกกับการกดค้างไม่ทำงาน**
 (เสียงขึ้นทีละขั้น กดลูกศรค้างไม่เลื่อนต่อเนื่อง):
 
 ```powershell
-adb -s $env:TV_SERIAL shell settings put secure enabled_accessibility_services com.launcher.mi.box.s3/com.launcher.mi.box.s3.KeyService
+adb -s $env:TV_SERIAL shell settings put secure enabled_accessibility_services com.launcher.clean/com.launcher.clean.KeyService
 adb -s $env:TV_SERIAL shell settings put secure accessibility_enabled 1
 ```
 
@@ -144,12 +144,12 @@ adb -s $env:TV_SERIAL shell "dumpsys wifi | grep -o 'cname=[^ ]*' | sort -u"
 
 ```powershell
 .\tools\disable.ps1 com.google.android.apps.tv.launcherx com.google.android.tungsten.setupwraith
-adb -s $env:TV_SERIAL shell cmd package set-home-activity com.launcher.mi.box.s3/.HomeActivity
+adb -s $env:TV_SERIAL shell cmd package set-home-activity com.launcher.clean/.HomeActivity
 adb -s $env:TV_SERIAL shell input keyevent KEYCODE_HOME
 adb -s $env:TV_SERIAL shell "dumpsys activity activities | grep mFocusedApp"
 ```
 
-ต้องเห็น `com.launcher.mi.box.s3/.HomeActivity` ถ้าจอดำ ให้เปิด `launcherx` กลับ:
+ต้องเห็น `com.launcher.clean/.HomeActivity` ถ้าจอดำ ให้เปิด `launcherx` กลับ:
 `adb shell pm enable --user 0 com.google.android.apps.tv.launcherx`
 
 ### 6. สิ่งที่ไม่ตามไปเอง
@@ -158,7 +158,7 @@ adb -s $env:TV_SERIAL shell "dumpsys activity activities | grep mFocusedApp"
   ใน `config.xml` ก่อน build หรือคัดลอกไฟล์ที่สำรองไว้ (ทำตอนลอนเชอร์ไม่ได้ทำงาน):
 
   ```powershell
-  $n = 'com.launcher.mi.box.s3'
+  $n = 'com.launcher.clean'
   adb -s $env:TV_SERIAL shell am force-stop $n
   adb -s $env:TV_SERIAL push backup\s3gen-home-prefs.xml /data/local/tmp/home.xml
   adb -s $env:TV_SERIAL shell "run-as $n mkdir -p shared_prefs && run-as $n cp /data/local/tmp/home.xml shared_prefs/home.xml && rm /data/local/tmp/home.xml"

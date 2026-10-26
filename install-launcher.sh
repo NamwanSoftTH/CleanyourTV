@@ -6,7 +6,7 @@
 # launcher/local.properties), and a JDK 17+ (JAVA_HOME; Android Studio's bundled one is found by itself).
 set -e
 cd "$(dirname "$0")"
-PKG=com.launcher.mi.box.s3
+PKG=com.launcher.clean
 BUILD_ONLY=0
 SET_HOME=0
 for a in "$@"; do
@@ -45,9 +45,9 @@ echo "Built $APK"
 : "${TV_SERIAL:?set TV_SERIAL=192.168.x.x:<port> (adb connect first)}"
 ADB="adb -s $TV_SERIAL"
 # adb install can hang on Android 14 waiting for an on-screen confirmation: push + pm install instead.
-$ADB push "$APK" /data/local/tmp/s3home.apk >/dev/null
-$ADB shell pm install -r /data/local/tmp/s3home.apk
-$ADB shell rm /data/local/tmp/s3home.apk
+$ADB push "$APK" /data/local/tmp/launcher-clear.apk >/dev/null
+$ADB shell pm install -r /data/local/tmp/launcher-clear.apk
+$ADB shell rm /data/local/tmp/launcher-clear.apk
 # Wi-Fi name in the pill (location) and Quick settings > Remotes & accessories (Nearby devices).
 $ADB shell pm grant $PKG android.permission.ACCESS_FINE_LOCATION
 $ADB shell pm grant $PKG android.permission.BLUETOOTH_CONNECT

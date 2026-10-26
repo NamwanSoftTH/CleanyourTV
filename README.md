@@ -123,8 +123,8 @@ accessories is one row down. That permission lets an app change system settings,
 not granted by the script. S3 Home uses it only to open that page. To grant / take it back:
 
 ```powershell
-adb -s $env:TV_SERIAL shell pm grant  com.launcher.mi.box.s3 android.permission.WRITE_SECURE_SETTINGS
-adb -s $env:TV_SERIAL shell pm revoke com.launcher.mi.box.s3 android.permission.WRITE_SECURE_SETTINGS
+adb -s $env:TV_SERIAL shell pm grant  com.launcher.clean android.permission.WRITE_SECURE_SETTINGS
+adb -s $env:TV_SERIAL shell pm revoke com.launcher.clean android.permission.WRITE_SECURE_SETTINGS
 ```
 
 Reinstalling with `install-launcher.ps1` keeps the grant; uninstalling removes it.
@@ -138,7 +138,7 @@ The helper on / off:
 
 ```powershell
 # on
-adb shell settings put secure enabled_accessibility_services com.launcher.mi.box.s3/com.launcher.mi.box.s3.KeyService
+adb shell settings put secure enabled_accessibility_services com.launcher.clean/com.launcher.clean.KeyService
 adb shell settings put secure accessibility_enabled 1
 # off (held buttons repeat again; YouTube button and hold-Home stop working)
 adb shell settings put secure enabled_accessibility_services '""'
@@ -146,7 +146,7 @@ adb shell settings put secure accessibility_enabled 0
 ```
 
 Build needs the JDK bundled with Android Studio (`C:\Program Files\Android\Android Studio\jbr`, Java 25),
-Gradle 8.14.3 via the wrapper (`launcher\gradlew.bat`, downloads it into `~\.gradle` on first use) and the
+Gradle 9.5.0 via the wrapper (9.5 is the newest that works with AGP 8.x and also runs on Java 25) (`launcher\gradlew.bat`, downloads it into `~\.gradle` on first use) and the
 SDK in `D:\AndroidSDK`; the script sets them up. It installs with `push` + `pm install -r` because
 `adb install` can hang on Android 14, and re-grants location.
 
@@ -161,7 +161,7 @@ SDK in `D:\AndroidSDK`; the script sets them up. It installs with `push` + `pm i
   ◀ ▶ step it through the list (also from the dock into the grid and back), ▲ ▼ move it a row. OK or
   Back drops it. The dock keeps its size: moving an app into it pushes the last dock app into the grid.
   The order is saved on the box and **overrides `dock_apps` / `app_order` in `config.xml`** until Reset
-  app order (or `adb shell pm clear com.launcher.mi.box.s3`, which also drops its permissions).
+  app order (or `adb shell pm clear com.launcher.clean`, which also drops its permissions).
 - Pills: Wi-Fi (network name) opens network settings, Settings opens Android settings. An Inputs pill
   with an HDMI / AV / Live TV dropdown appears only on devices that have inputs (this box has none).
 - Header (fixed, stays on screen while the apps scroll underneath): greeting, then time | date on one

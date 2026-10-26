@@ -1,4 +1,4 @@
-package com.launcher.mi.box.s3;
+package com.launcher.clean;
 
 /**
  * Screen geometry in pixels. Everything is derived from the screen size and column count, so tile

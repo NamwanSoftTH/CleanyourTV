@@ -11,5 +11,5 @@ foreach ($p in $pkgs) { Write-Host "$p -> $(& $adb -s $Serial shell pm enable --
 & $adb -s $Serial shell settings put secure accessibility_enabled 0
 & $adb -s $Serial shell cmd location set-location-enabled false
 & $adb -s $Serial shell cmd package set-home-activity com.google.android.apps.tv.launcherx/.home.HomeActivity
-if (-not $KeepLauncher) { & $adb -s $Serial shell pm uninstall com.launcher.mi.box.s3 }
+if (-not $KeepLauncher) { & $adb -s $Serial shell pm uninstall com.launcher.clean }
 Write-Host 'Done. Reboot the box: adb reboot'

@@ -57,7 +57,7 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:screenOrientation="landscape"
-            android:taskAffinity="com.launcher.mi.box.s3.panel"
+            android:taskAffinity="com.launcher.clean.panel"
             android:theme="@style/Panel" />
 
         <!-- Optional remote-button helper, off unless enabled in accessibility settings.
