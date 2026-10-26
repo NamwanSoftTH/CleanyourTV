@@ -1,4 +1,5 @@
-# Packages disabled with `pm disable-user --user 0` on MiTV-AFMU0 (Xiaomi TV Box S 3rd Gen)
+# Debloat list for MiTV-AFMU0 (Xiaomi TV Box S 3rd Gen), Google TV, Android 14, firmware V816.0.11.0.UZFAABX
+# Disabled with `pm disable-user --user 0` by setup-new-box.ps1; re-enabled by restore.ps1.
 # Pre-disabled at factory (not ours, left alone): com.mitv.tvhome.atv, com.mitv.tvhome.mitvplus
 # Batch A - telemetry
 com.miui.tv.analytics

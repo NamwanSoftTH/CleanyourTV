@@ -43,7 +43,7 @@ TV_SERIAL=192.168.x.x:<พอร์ต> ./install-launcher.sh              # ค
 
 1. เช็กการเชื่อมต่อ, รุ่น และ Android (ต้อง SDK 26+) ถ้าไม่ใช่ `MiTV-AFMU0` จะ**ข้าม debloat** และถามก่อนทำต่อ
 2. สำรองข้อมูลลงโฟลเดอร์ `backup-<รุ่น>-<วันเวลา>\`
-3. ปิดแพ็กเกจตาม `disabled-packages.txt` ทีละ batch (ข้ามตัวที่ไม่มีในเครื่อง ไม่แตะ Backdrop)
+3. ปิดแพ็กเกจตาม `debloat/<รุ่น>.txt` ของรุ่นที่ต่ออยู่ ทีละ batch (ถ้าไม่มีไฟล์ของรุ่นนั้นจะข้าม debloat; ข้ามแพ็กเกจที่ไม่มีในเครื่อง; ไม่แตะ Backdrop)
 4. build และติดตั้งลอนเชอร์ แล้วตั้งเป็น Home
 5. ถามทีละข้อ: เปิดตำแหน่ง (ชื่อ Wi-Fi), เปิดปุ่มช่วยรีโมต และให้สิทธิ์ `WRITE_SECURE_SETTINGS` (ค่าเริ่มต้นคือไม่ให้)
 6. เช็กว่า Wi-Fi เป็นของ setupwraith หรือไม่ ถ้าใช่ **หยุดก่อน** และบอกวิธีแก้ ถ้าไม่ใช่ ปิด `launcherx` + `setupwraith`
@@ -93,7 +93,7 @@ foreach ($n in 'global','secure','system') { adb -s $env:TV_SERIAL shell setting
 
 ### 3. Debloat
 
-- **รุ่นเดียวกัน (Xiaomi TV Box S 3rd Gen, MiTV-AFMU0):** ปิดตามรายการใน `disabled-packages.txt`
+- **รุ่นเดียวกัน (Xiaomi TV Box S 3rd Gen, MiTV-AFMU0):** ปิดตามรายการใน `debloat/MiTV-AFMU0.txt`
   ทีละกลุ่ม **ยกเว้น 2 ตัวสุดท้าย** (`launcherx`, `setupwraith`) ซึ่งต้องปิดหลังติดตั้งลอนเชอร์ (ข้อ 5)
 
   ```powershell

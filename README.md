@@ -27,7 +27,7 @@ All settings and Restart, over whatever is on screen.
 
 ## What was changed
 
-**Disabled** with `pm disable-user --user 0` (nothing uninstalled), full list in `disabled-packages.txt`:
+**Disabled** with `pm disable-user --user 0` (nothing uninstalled), full list in `debloat/MiTV-AFMU0.txt` (one list per TV model, see [Debloat lists per model](#debloat-lists-per-model)):
 
 | Group                | Packages                                                                                                                                |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -52,6 +52,19 @@ Netflix, Prime Video, YouTube Music, `mitv.service` (remote keys), Bluetooth, Pl
 - Private DNS: AdGuard (`dns.adguard-dns.com`) was **already set before this project** and was left alone.
   It blocks many ad/tracker domains, not YouTube ads. Undo: `adb shell settings put global private_dns_mode opportunistic`.
 
+## Debloat lists per model
+
+Package names differ per brand and model, so each model has its own list: `debloat/<model>.txt`, named
+after the TV's `ro.product.model` (now: `debloat/MiTV-AFMU0.txt`). `setup-new-box.ps1` and `restore.ps1`
+pick the list of the connected TV; with no list for a model, `setup-new-box.ps1` disables nothing.
+
+- `# Batch <name>` starts a batch (disabled one batch at a time), `# Launcher takeover` lists the stock
+  Home / setup wizard (disabled only once the new launcher is Home), `# ----` ends both; one package per line.
+- First unit of a new model: `.\tools\new-debloat-list.ps1 -Serial <ip:port>` writes a draft with every
+  system package of that TV commented out (Android core packages flagged `never`). Move the ones to turn off
+  under a batch line, uncommented, then run `setup-new-box.ps1`. Every later unit of that model is automatic.
+  Details in [OTHER_DEVICE.md](OTHER_DEVICE.md#5-รายการปิดแอปต่อรุ่น-debloat-อัตโนมัติ).
+
 ## Connecting
 
 Wireless debugging gets a new port after every reboot or Wi-Fi drop: read it from
@@ -68,7 +81,7 @@ $env:TV_SERIAL = '192.168.2.5:<port>'    # all scripts use it (or pass -Serial)
 adb -s $env:TV_SERIAL shell pm enable --user 0 <package>
 ```
 
-Then delete its line from `disabled-packages.txt`. List what is disabled: `adb shell pm list packages -d`.
+Then delete its line from `debloat/MiTV-AFMU0.txt`. List what is disabled: `adb shell pm list packages -d`.
 Re-enabling `com.google.android.apps.tv.launcherx` gives Home back to Google TV straight away.
 
 ## Undo everything
@@ -78,7 +91,7 @@ Re-enabling `com.google.android.apps.tv.launcherx` gives Home back to Google TV 
 adb -s $env:TV_SERIAL reboot
 ```
 
-Re-enables every package in `disabled-packages.txt`, switches the remote-button helper and location off,
+Re-enables every package in the connected model's `debloat/<model>.txt`, switches the remote-button helper and location off,
 gives Home back to Google TV and uninstalls S3 Home.
 
 ## Change the dock, the grid or the wallpaper
@@ -184,7 +197,9 @@ so a USB drive plugged into it is not detected until debugging is off and the bo
 | Path                    | What                                                                                       |
 | ----------------------- | ------------------------------------------------------------------------------------------ |
 | `backup\`               | Package lists, getprop, all settings, HOME handlers, display, network (before any change)  |
-| `disabled-packages.txt` | What is disabled (read by `restore.ps1`)                                                   |
+| `debloat/<model>.txt` | What is disabled, per TV model (read by `setup-new-box.ps1` and `restore.ps1`) |
+| `tools/new-debloat-list.ps1` | Draft `debloat/<model>.txt` for a new model, from the connected TV's packages |
+| `tools/DebloatList.ps1` | Reads the per-model lists (shared by the scripts above) |
 | `restore.ps1`           | Undo everything                                                                            |
 | `setup-new-box.ps1`     | Set up another box in one go (backup, debloat, launcher, takeover); see `HOW_TO.md`        |
 | `OTHER_DEVICE.md`       | Using it on other Android TV / Google TV models: what works as is, what to check per model |

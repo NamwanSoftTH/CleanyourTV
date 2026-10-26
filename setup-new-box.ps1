@@ -1,5 +1,6 @@
-# Set up a new Xiaomi TV Box S 3rd Gen (or similar Google TV box): backup, debloat, S3 Home launcher,
-# optional extras, Home takeover, checks. Safe to run again: finished steps are skipped or redone harmlessly.
+# Set up a new Android TV / Google TV box: backup, debloat (debloat\<model>.txt, if there is one for the
+# connected model), S3 Home launcher, optional extras, Home takeover, checks.
+# Safe to run again: finished steps are skipped or redone harmlessly.
 #
 # Usage (after `adb pair` / `adb connect`, see HOW_TO.md):
 #   .\setup-new-box.ps1 -Serial 192.168.x.x:<port>
@@ -14,8 +15,9 @@ param([string]$Serial = $env:TV_SERIAL,
 $ErrorActionPreference = 'Stop'
 $adb = 'D:\AndroidSDK\platform-tools\adb.exe'
 $pkg = 'com.launcher.clean'
-$knownModel = 'MiTV-AFMU0'   # disabled-packages.txt was made on this model
-$takeover = @('com.google.android.apps.tv.launcherx', 'com.google.android.tungsten.setupwraith')
+# Google TV's stock Home and setup wizard: the takeover default when a model's list has no takeover section.
+$defaultTakeover = @('com.google.android.apps.tv.launcherx', 'com.google.android.tungsten.setupwraith')
+. "$PSScriptRoot\tools\DebloatList.ps1"
 
 function Step($t) { Write-Host "`n=== $t" -ForegroundColor Cyan }
 function Warn($t) { Write-Host "!! $t" -ForegroundColor Yellow }
@@ -38,16 +40,21 @@ $model = (Sh getprop ro.product.model).Trim()
 $sdk = [int](Sh getprop ro.build.version.sdk).Trim()
 Write-Host "Device: $model, SDK $sdk"
 if ($sdk -lt 26) { throw "SDK ${sdk}: the launcher needs Android 8.0 (SDK 26) or newer" }
-$sameModel = $model -eq $knownModel
-if (-not $sameModel) {
-    Warn "Not a $knownModel. Its package names may differ: the debloat list is skipped (check packages by hand, see HOW_TO.md)."
+$listPath = Get-DebloatListPath $model
+$list = if (Test-Path $listPath) { Read-DebloatList $listPath } else { $null }
+if ($list) {
+    Write-Host "Debloat list: debloat\$(Split-Path $listPath -Leaf)"
+} else {
+    Warn "No debloat list for '$model' (debloat\$(Split-Path $listPath -Leaf)). Package names differ per model,"
+    Warn 'so nothing is disabled. For the first unit of a model: .\tools\new-debloat-list.ps1 writes a draft to review.'
     if (-not (Ask 'Continue with the launcher only?' $true)) { return }
     $SkipDebloat = $true
 }
+$takeover = if ($list -and $list.Takeover.Count) { $list.Takeover } else { $defaultTakeover }
 
 # ---------------------------------------------------------------- 1. backup
 Step 'Backup'
-if (-not $BackupDir) { $BackupDir = "backup-$model-$(Get-Date -Format yyyyMMdd-HHmm)" }
+if (-not $BackupDir) { $BackupDir = "backup-$model-$((Get-Date).ToString('yyyyMMdd-HHmm', [Globalization.CultureInfo]::InvariantCulture))" }
 $b = Join-Path $PSScriptRoot $BackupDir
 New-Item -ItemType Directory -Force $b | Out-Null
 Sh pm list packages -f > "$b\packages-all.txt"
@@ -59,14 +66,9 @@ Write-Host "Saved to $BackupDir"
 
 # ---------------------------------------------------------------- 2. debloat
 $installed = (Sh pm list packages) -replace '^package:', ''
-if (-not $SkipDebloat) {
-    Step 'Debloat (disabled-packages.txt, one batch at a time)'
-    $batches = [ordered]@{}; $name = $null
-    foreach ($line in Get-Content "$PSScriptRoot\disabled-packages.txt") {
-        if ($line -match '^#\s*Batch\s+(.+)') { $name = $Matches[1]; $batches[$name] = @(); continue }
-        if ($line -match '^#\s*Launcher takeover') { $name = $null; continue }   # done in step 5
-        if ($name -and $line -match '^\s*([a-z][\w.]+)\s*$') { $batches[$name] += $Matches[1] }
-    }
+if (-not $SkipDebloat -and $list) {
+    Step "Debloat (debloat\$(Split-Path $listPath -Leaf), one batch at a time)"
+    $batches = $list.Batches   # the takeover section is done in step 5
     foreach ($k in $batches.Keys) {
         $todo = @($batches[$k] | Where-Object { $installed -contains $_ })
         if (-not $todo) { Write-Host "$k : nothing installed"; continue }
@@ -118,8 +120,8 @@ Sh input keyevent KEYCODE_HOME
 Start-Sleep 3
 $focus = Sh "dumpsys activity activities | grep mFocusedApp"
 if ($focus -notmatch [regex]::Escape("$pkg/.HomeActivity")) {
-    Warn "Home is not the new launcher ($($focus.Trim())). Giving Home back to Google TV."
-    Sh pm enable --user 0 com.google.android.apps.tv.launcherx
+    Warn "Home is not the new launcher ($($focus.Trim())). Giving Home back to the stock launcher."
+    foreach ($p in $todo) { Sh pm enable --user 0 $p | Out-Null }
     throw 'Takeover failed; see HOW_TO.md step 5'
 }
 
