@@ -24,12 +24,12 @@ All settings and Restart, over whatever is on screen.
 
 **Disabled** with `pm disable-user --user 0` (nothing uninstalled), full list in `disabled-packages.txt`:
 
-| Group | Packages |
-|---|---|
-| Telemetry | `com.miui.tv.analytics`, `com.xiaomi.statistic`, `com.android.tv.feedbackconsent`, `com.google.android.feedback` |
-| Xiaomi content / ads | `com.mitv.tvhome.michannel`, `com.mitv.tvhome.oemtab`, `com.xm.webcontent`, `com.xiaomi.android.tvsetup.partnercustomizer` |
-| Unused preloads | `com.xiaomi.mimusic2`, `com.google.android.play.games` |
-| Launcher takeover | `com.google.android.apps.tv.launcherx` (Google TV home), `com.google.android.tungsten.setupwraith` (setup wizard, grabs Home otherwise) |
+| Group                | Packages                                                                                                                                |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Telemetry            | `com.miui.tv.analytics`, `com.xiaomi.statistic`, `com.android.tv.feedbackconsent`, `com.google.android.feedback`                        |
+| Xiaomi content / ads | `com.mitv.tvhome.michannel`, `com.mitv.tvhome.oemtab`, `com.xm.webcontent`, `com.xiaomi.android.tvsetup.partnercustomizer`              |
+| Unused preloads      | `com.xiaomi.mimusic2`, `com.google.android.play.games`                                                                                  |
+| Launcher takeover    | `com.google.android.apps.tv.launcherx` (Google TV home), `com.google.android.tungsten.setupwraith` (setup wizard, grabs Home otherwise) |
 
 Google's screensaver Backdrop (`com.google.android.apps.tv.dreamx`) was disabled at first and is
 **enabled again**: it is the box's only screensaver (`screensaver_default_component`), so with it off
@@ -39,6 +39,7 @@ Kept on purpose: Google Assistant, Chromecast, Xiaomi casting / Miracast, firmwa
 Netflix, Prime Video, YouTube Music, `mitv.service` (remote keys), Bluetooth, Play Store / Services.
 
 **Other settings**
+
 - Location **on** (was off), so the Wi-Fi pill can show the network name. Only S3 Home has the permission.
 - Remote-button helper **on** (accessibility service "S3 Home remote buttons"): YouTube button opens
   YouTube, holding Home opens Settings. **Trade-off:** held buttons don't repeat - volume and D-pad
@@ -61,6 +62,7 @@ $env:TV_SERIAL = '192.168.2.5:<port>'    # all scripts use it (or pass -Serial)
 ```powershell
 adb -s $env:TV_SERIAL shell pm enable --user 0 <package>
 ```
+
 Then delete its line from `disabled-packages.txt`. List what is disabled: `adb shell pm list packages -d`.
 Re-enabling `com.google.android.apps.tv.launcherx` gives Home back to Google TV straight away.
 
@@ -70,6 +72,7 @@ Re-enabling `com.google.android.apps.tv.launcherx` gives Home back to Google TV 
 .\restore.ps1                 # add -KeepLauncher to leave S3 Home installed
 adb -s $env:TV_SERIAL reboot
 ```
+
 Re-enables every package in `disabled-packages.txt`, switches the remote-button helper and location off,
 gives Home back to Google TV and uninstalls S3 Home.
 
@@ -118,10 +121,12 @@ Remotes & accessories needs the Nearby devices permission (`BLUETOOTH_CONNECT`),
 (TV Settings' slice page refuses other callers); otherwise it opens main Settings, where Remotes &
 accessories is one row down. That permission lets an app change system settings, so it is optional and
 not granted by the script. S3 Home uses it only to open that page. To grant / take it back:
+
 ```powershell
 adb -s $env:TV_SERIAL shell pm grant  com.launcher.mi.box.s3 android.permission.WRITE_SECURE_SETTINGS
 adb -s $env:TV_SERIAL shell pm revoke com.launcher.mi.box.s3 android.permission.WRITE_SECURE_SETTINGS
 ```
+
 Reinstalling with `install-launcher.ps1` keeps the grant; uninstalling removes it.
 
 **USB pill:** while a USB drive is mounted, a pill with its name appears before the Wi-Fi pill and opens
@@ -130,6 +135,7 @@ Up/Down move, OK opens, Back or Left closes. It's S3 Home's own panel (`QuickPan
 CleanYourTV's `settings_key_panel` belongs to a different launcher and doesn't apply here.
 
 The helper on / off:
+
 ```powershell
 # on
 adb shell settings put secure enabled_accessibility_services com.launcher.mi.box.s3/com.launcher.mi.box.s3.KeyService
@@ -170,17 +176,20 @@ so a USB drive plugged into it is not detected until debugging is off and the bo
 
 ## Files
 
-| Path | What |
-|---|---|
-| `backup\` | Package lists, getprop, all settings, HOME handlers, display, network (before any change) |
-| `disabled-packages.txt` | What is disabled (read by `restore.ps1`) |
-| `restore.ps1` | Undo everything |
-| `setup-new-box.ps1` | Set up another box in one go (backup, debloat, launcher, takeover); see `HowTo.md` |
-| `OtherDevice.md` | Using it on other Android TV / Google TV models: what works as is, what to check per model |
-| `install-launcher.ps1` | Build + install S3 Home (Windows) |
-| `install-launcher.sh` | Same for Mac/Linux: `TV_SERIAL=ip:port ./install-launcher.sh [--set-home] [--build-only]` |
-| `.gitattributes` | Keeps `gradlew` / `*.sh` LF and `*.bat` / `*.ps1` CRLF for every clone |
-| `tools\disable.ps1` | Disable packages one per call; refuses Android core packages |
-| `tools\shot.ps1` | Press keys, then pull a screenshot: `.\tools\shot.ps1 shots\x.png DPAD_DOWN` |
-| `launcher\` | Launcher source (Java, AndroidX RecyclerView) |
-| `shots\` | Screenshots from the TV taken while setting it up |
+| Path                    | What                                                                                       |
+| ----------------------- | ------------------------------------------------------------------------------------------ |
+| `backup\`               | Package lists, getprop, all settings, HOME handlers, display, network (before any change)  |
+| `disabled-packages.txt` | What is disabled (read by `restore.ps1`)                                                   |
+| `restore.ps1`           | Undo everything                                                                            |
+| `setup-new-box.ps1`     | Set up another box in one go (backup, debloat, launcher, takeover); see `HowTo.md`         |
+| `OtherDevice.md`        | Using it on other Android TV / Google TV models: what works as is, what to check per model |
+| `install-launcher.ps1`  | Build + install S3 Home (Windows)                                                          |
+| `install-launcher.sh`   | Same for Mac/Linux: `TV_SERIAL=ip:port ./install-launcher.sh [--set-home] [--build-only]`  |
+| `.gitattributes`        | Keeps `gradlew` / `*.sh` LF and `*.bat` / `*.ps1` CRLF for every clone                     |
+| `tools\disable.ps1`     | Disable packages one per call; refuses Android core packages                               |
+| `tools\shot.ps1`        | Press keys, then pull a screenshot: `.\tools\shot.ps1 shots\x.png DPAD_DOWN`               |
+| `launcher\`             | Launcher source (Java, AndroidX RecyclerView)                                              |
+| `shots\`                | Screenshots from the TV taken while setting it up                                          |
+
+[อ่านวิธีการใช้งานเพิ่มเติมได้ที่นี่](HowTo.md)
+[อ่านวิธีการใช้งานเครื่องรุ่นอื่นได้ที่นี่](OtherDevice.md)
