@@ -1,7 +1,7 @@
 # Set up a new Xiaomi TV Box S 3rd Gen (or similar Google TV box): backup, debloat, S3 Home launcher,
 # optional extras, Home takeover, checks. Safe to run again: finished steps are skipped or redone harmlessly.
 #
-# Usage (after `adb pair` / `adb connect`, see HowTo.md):
+# Usage (after `adb pair` / `adb connect`, see HOW_TO.md):
 #   .\setup-new-box.ps1 -Serial 192.168.x.x:<port>
 #   .\setup-new-box.ps1 -Serial ... -PrefsFile backup\s3gen-home-prefs.xml   # copy an app order arranged on another box
 #   .\setup-new-box.ps1 -Serial ... -SkipDebloat                             # launcher only
@@ -33,14 +33,14 @@ Step 'Connection'
 if (-not $Serial) { throw 'No device: pass -Serial 192.168.x.x:<port> or set $env:TV_SERIAL' }
 $env:TV_SERIAL = $Serial
 & $adb connect $Serial | Out-Null
-if ((& $adb -s $Serial get-state 2>$null) -ne 'device') { throw "Cannot reach $Serial (adb pair / adb connect first, see HowTo.md)" }
+if ((& $adb -s $Serial get-state 2>$null) -ne 'device') { throw "Cannot reach $Serial (adb pair / adb connect first, see HOW_TO.md)" }
 $model = (Sh getprop ro.product.model).Trim()
 $sdk = [int](Sh getprop ro.build.version.sdk).Trim()
 Write-Host "Device: $model, SDK $sdk"
 if ($sdk -lt 26) { throw "SDK ${sdk}: the launcher needs Android 8.0 (SDK 26) or newer" }
 $sameModel = $model -eq $knownModel
 if (-not $sameModel) {
-    Warn "Not a $knownModel. Its package names may differ: the debloat list is skipped (check packages by hand, see HowTo.md)."
+    Warn "Not a $knownModel. Its package names may differ: the debloat list is skipped (check packages by hand, see HOW_TO.md)."
     if (-not (Ask 'Continue with the launcher only?' $true)) { return }
     $SkipDebloat = $true
 }
@@ -120,7 +120,7 @@ $focus = Sh "dumpsys activity activities | grep mFocusedApp"
 if ($focus -notmatch [regex]::Escape("$pkg/.HomeActivity")) {
     Warn "Home is not the new launcher ($($focus.Trim())). Giving Home back to Google TV."
     Sh pm enable --user 0 com.google.android.apps.tv.launcherx
-    throw 'Takeover failed; see HowTo.md step 5'
+    throw 'Takeover failed; see HOW_TO.md step 5'
 }
 
 # ---------------------------------------------------------------- 6. summary

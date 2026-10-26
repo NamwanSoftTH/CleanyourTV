@@ -181,8 +181,8 @@ so a USB drive plugged into it is not detected until debugging is off and the bo
 | `backup\`               | Package lists, getprop, all settings, HOME handlers, display, network (before any change)  |
 | `disabled-packages.txt` | What is disabled (read by `restore.ps1`)                                                   |
 | `restore.ps1`           | Undo everything                                                                            |
-| `setup-new-box.ps1`     | Set up another box in one go (backup, debloat, launcher, takeover); see `HowTo.md`         |
-| `OtherDevice.md`        | Using it on other Android TV / Google TV models: what works as is, what to check per model |
+| `setup-new-box.ps1`     | Set up another box in one go (backup, debloat, launcher, takeover); see `HOW_TO.md`        |
+| `OTHER_DEVICE.md`       | Using it on other Android TV / Google TV models: what works as is, what to check per model |
 | `install-launcher.ps1`  | Build + install S3 Home (Windows)                                                          |
 | `install-launcher.sh`   | Same for Mac/Linux: `TV_SERIAL=ip:port ./install-launcher.sh [--set-home] [--build-only]`  |
 | `.gitattributes`        | Keeps `gradlew` / `*.sh` LF and `*.bat` / `*.ps1` CRLF for every clone                     |
