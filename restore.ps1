@@ -22,6 +22,9 @@ if (Test-Path $List) {
         $l = Read-DebloatList $_.FullName; @($l.Batches.Values | ForEach-Object { $_ }) + $l.Takeover
     } | Sort-Object -Unique
 }
+# Google TV's stock Home and setup wizard are disabled by setup-new-box.ps1 even when a list leaves them out;
+# also packages disabled by older versions of the lists (partnercustomizer: breaks the remote button setup).
+$pkgs = @($pkgs) + $TakeoverPackages + 'com.xiaomi.android.tvsetup.partnercustomizer' | Select-Object -Unique
 foreach ($p in $pkgs) { Write-Host "$p -> $(& $adb -s $Serial shell pm enable --user 0 $p)" }
 # Remote-button helper off and location off again, as they were before
 # (backup\MiTV-AFMU0-30468-20261025-0854\settings-secure.txt).

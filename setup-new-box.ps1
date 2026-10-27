@@ -2,12 +2,18 @@
 # connected model), S3 Home launcher, optional extras, Home takeover, checks.
 # Safe to run again: finished steps are skipped or redone harmlessly.
 #
-# Usage (after `adb pair` / `adb connect`, see HOW_TO.md):
+# Usage:
+#   First time (TV: Developer options > Wireless debugging > Pair device with pairing code):
+#   .\setup-new-box.ps1 -Pair 192.168.x.x:<pairing port> -Code 123456
+#       pairs, then finds the connection port by itself (mDNS) or asks for it; add -Serial ip:<port> to give it
+#   Already paired:
 #   .\setup-new-box.ps1 -Serial 192.168.x.x:<port>
 #   .\setup-new-box.ps1 -Serial ... -PrefsFile backup\s3gen-home-prefs.xml   # copy an app order arranged on another box
 #   .\setup-new-box.ps1 -Serial ... -SkipDebloat                             # launcher only
 #   .\setup-new-box.ps1 -Serial ... -Yes                                     # don't ask for the optional extras (all on)
 param([string]$Serial = $env:TV_SERIAL,
+      [string]$Pair,      # ip:port shown under "Pair device with pairing code" (not the connection port)
+      [string]$Code,      # the 6-digit pairing code; asked for when -Pair is given without it
       [string]$BackupDir,
       [string]$PrefsFile,
       [switch]$SkipDebloat,
@@ -32,10 +38,32 @@ function Ask($q, [bool]$default) {
 
 # ---------------------------------------------------------------- 0. connection
 Step 'Connection'
-if (-not $Serial) { throw 'No device: pass -Serial 192.168.x.x:<port> or set $env:TV_SERIAL' }
+if ($Pair) {
+    if (-not $Code) { $Code = Read-Host "Pairing code shown on the TV for $Pair" }
+    $out = (& $adb pair $Pair $Code 2>&1) -join ' '
+    Write-Host $out
+    if ($out -notmatch 'Successfully paired') { throw "Pairing with $Pair failed (code expired? the pairing port and code change each time you open the pairing screen)" }
+    $hostIp = ($Pair -split ':')[0]
+    if (-not $PSBoundParameters.ContainsKey('Serial')) {
+        # The connection port differs from the pairing port; the TV announces it over mDNS.
+        $Serial = $null
+        for ($i = 0; $i -lt 5 -and -not $Serial; $i++) {
+            $svc = & $adb mdns services 2>$null | Select-String '_adb-tls-connect' | Select-String ([regex]::Escape($hostIp))
+            if ($svc) { $Serial = [regex]::Match($svc[0].Line, "$([regex]::Escape($hostIp)):\d+").Value }
+            if (-not $Serial) { Start-Sleep 1 }
+        }
+        if ($Serial) { Write-Host "Connection port found: $Serial" }
+        else { $Serial = "${hostIp}:$(Read-Host "Port under 'IP address & Port' on the Wireless debugging screen")" }
+    }
+}
+if (-not $Serial) { throw 'No device: pass -Serial 192.168.x.x:<port> (or -Pair/-Code for the first time) or set $env:TV_SERIAL' }
 $env:TV_SERIAL = $Serial
-& $adb connect $Serial | Out-Null
-if ((& $adb -s $Serial get-state 2>$null) -ne 'device') { throw "Cannot reach $Serial (adb pair / adb connect first, see HOW_TO.md)" }
+for ($i = 0; $i -lt 3; $i++) {
+    & $adb connect $Serial | Out-Null
+    if ((& $adb -s $Serial get-state 2>$null) -eq 'device') { break }
+    Start-Sleep 2
+}
+if ((& $adb -s $Serial get-state 2>$null) -ne 'device') { throw "Cannot reach $Serial (wrong port? Wireless debugging off? First time: use -Pair and -Code)" }
 $model = (Sh getprop ro.product.model).Trim()
 $sdk = [int](Sh getprop ro.build.version.sdk).Trim()
 Write-Host "Device: $model, SDK $sdk"
@@ -50,7 +78,10 @@ if ($list) {
     if (-not (Ask 'Continue with the launcher only?' $true)) { return }
     $SkipDebloat = $true
 }
-$takeover = if ($list -and $list.Takeover.Count) { $list.Takeover } else { $defaultTakeover }
+# Takeover: the list's own takeover packages plus Google TV's stock Home and setup wizard (skipped when not
+# installed). setupwraith goes first: its RecoveryActivity grabs Home the moment launcherx is off.
+$takeover = @('com.google.android.tungsten.setupwraith') + @(if ($list) { $list.Takeover }) + $defaultTakeover |
+    Select-Object -Unique
 
 # ---------------------------------------------------------------- 1. backup
 Step 'Backup'

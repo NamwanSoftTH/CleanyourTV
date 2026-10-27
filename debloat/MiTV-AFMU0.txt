@@ -22,6 +22,8 @@
 #   The network re-joined in Settings is a new entry owned by android.uid.system and survived disabling
 #   launcherx and dreamx. Check before disabling: tools/tv.py "dumpsys wifi" | grep -o 'cname=[^ ]*'
 # - Leave alone: com.xiaomi.android.tvsetup.partnercustomizer, mitv.service, com.droidlogic*.
+#   (Confirmed 2026-10-27: with partnercustomizer off, Settings > Remotes & accessories > Remote button
+#   setup opens its .ir.ui.IRPairingActivity, finds nothing, and TV Settings crashes back to Home.)
 # - With the stock launcher gone, apps without a dock slot just appear in the grid.
 
 # Telemetry and feedback
@@ -49,21 +51,23 @@ android.autoinstalls.config.soc.amlogic
 # Left commented so check.py does not report drift and re-applying the list does not break it again.
 # com.google.android.katniss
 # com.google.android.tv.remote.service
-com.xiaomi.mitv.smartshare
-com.xiaomi.wfdsinkhelperservice
-com.xiaomi.mi_connect_service
+# KEPT ON here (owner's choice: casting is used):
+# com.xiaomi.mitv.smartshare             # Xiaomi screen share
+# com.xiaomi.wfdsinkhelperservice        # Miracast sink helper
+# com.xiaomi.mi_connect_service          # Mi Connect
 
 # Preloaded apps
-com.disney.disneyplus
-com.wbd.hbomax
-com.google.android.youtube.tvmusic
 com.google.android.play.games
 com.google.android.marvin.talkback
 com.xiaomi.mimusic2
-com.xiaomi.mitv.mediaexplorer
-com.mitv.videoplayer
 com.android.printspooler
-com.mitv.gallery
+# KEPT ON here (owner's choice):
+# com.disney.disneyplus                  # used
+# com.wbd.hbomax                         # used
+# com.google.android.youtube.tvmusic     # kept at first setup; hidden from Home in config.xml only
+# com.xiaomi.mitv.mediaexplorer          # the launcher's USB pill opens it (usb_app)
+# com.mitv.videoplayer                   # plays the videos Media Explorer opens from USB
+# com.mitv.gallery                       # shows the photos Media Explorer opens; hidden from Home in config.xml
 
 # Personal choice: preloaded streaming apps, kept enabled here. Uncomment the ones you don't use
 # com.netflix.ninja                    # Netflix
