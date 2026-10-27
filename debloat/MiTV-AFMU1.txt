@@ -86,7 +86,7 @@ com.xm.webcontent                      # Xiaomi promo web pages
 android.autoinstalls.config.soc.amlogic # Amlogic partner auto-installs
 
 # Preloaded apps and services not needed on a stick
-com.google.android.youtube.tvmusic     # one unit only; the firmware removed it for user 0 after the first reboot
+# com.google.android.youtube.tvmusic   # KEPT ON (owner's choice). Upstream: one unit only; the firmware removed it for user 0 after the first reboot
 com.google.android.play.games
 com.google.android.marvin.talkback     # one unit only; already off at the firmware level on the other
 com.mitv.videoplayer                   # Mi video player
